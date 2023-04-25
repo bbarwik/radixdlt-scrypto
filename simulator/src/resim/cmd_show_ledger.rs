@@ -7,10 +7,8 @@ use radix_engine_interface::time::Instant;
 use radix_engine_interface::time::UtcDateTime;
 use radix_engine_stores::rocks_db::RocksdbSubstateStore;
 use transaction::model::Instruction;
-use utils::ContextualDisplay;
 
 use crate::resim::*;
-use crate::utils::*;
 
 /// Show entries in the ledger state
 #[derive(Parser, Debug)]

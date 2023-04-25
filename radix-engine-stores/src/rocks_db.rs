@@ -1,5 +1,4 @@
 use crate::interface::*;
-use radix_engine_interface::types::*;
 use rocksdb::{DBWithThreadMode, Direction, IteratorMode, SingleThreaded, DB};
 use sbor::rust::prelude::*;
 use std::path::PathBuf;
@@ -60,11 +59,7 @@ impl RocksdbSubstateStore {
 }
 
 impl SubstateDatabase for RocksdbSubstateStore {
-    fn get_substate(
-        &self,
-        index_id: &Vec<u8>,
-        db_key: &Vec<u8>,
-    ) -> Option<Vec<u8>> {
+    fn get_substate(&self, index_id: &Vec<u8>, db_key: &Vec<u8>) -> Option<Vec<u8>> {
         let key = encode_substate_id(index_id, db_key);
         self.db.get(&key).expect("IO Error")
     }
@@ -98,8 +93,7 @@ impl SubstateDatabase for RocksdbSubstateStore {
 
 impl CommittableSubstateDatabase for RocksdbSubstateStore {
     fn commit(&mut self, state_changes: &DatabaseUpdates) {
-        for (index_id, index_updates) in &state_changes.database_updates
-        {
+        for (index_id, index_updates) in &state_changes.database_updates {
             for (db_key, update) in index_updates {
                 let substate_id = encode_substate_id(index_id, db_key);
                 match update {
